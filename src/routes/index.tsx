@@ -80,7 +80,7 @@ function Home() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {last && lastMeta && (
-          <Link to="/chapter/$id" params={{ id: String(last.chapterId) }} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft hover:border-primary">
+          <Link to="/chapter/$id" params={{ id: String(last.chapterId) }} className="surface-card-interactive flex items-center gap-4 p-4">
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><ReadingProgressIcon size={22} /></span>
             <span className="min-w-0 flex-1">
               <span className="block text-xs text-muted-foreground">{t("continueReading")}</span>
@@ -89,7 +89,7 @@ function Home() {
             <span className="font-arabic text-xl text-primary">{lastMeta.name.ar}</span>
           </Link>
         )}
-        <Link to="/azkar/$category" params={{ category: suggest }} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft hover:border-primary">
+        <Link to="/azkar/$category" params={{ category: suggest }} className="surface-card-interactive flex items-center gap-4 p-4">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><TasbihIcon size={22} /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-xs text-muted-foreground">{t("suggestedNow")}</span>
@@ -97,7 +97,7 @@ function Home() {
           </span>
           <ChevronRight size={18} className="text-muted-foreground" />
         </Link>
-        <Link to="/qibla" className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft hover:border-primary">
+        <Link to="/qibla" className="surface-card-interactive flex items-center gap-4 p-4">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary" style={{ transform: `rotate(${qibla}deg)` }}><QiblaIcon size={22} /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-xs text-muted-foreground">{t("navQibla")}</span>

@@ -22,6 +22,7 @@ import { Route as QuranRouteImport } from './routes/quran'
 import { Route as RamadanRouteImport } from './routes/ramadan'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as StatisticsRouteImport } from './routes/statistics'
+import { Route as TasbihRouteImport } from './routes/tasbih'
 import { Route as AzkarIndexRouteImport } from './routes/azkar.index'
 import { Route as AzkarCategoryRouteImport } from './routes/azkar.$category'
 import { Route as ChapterIdRouteImport } from './routes/chapter.$id'
@@ -99,6 +100,11 @@ const StatisticsRoute = StatisticsRouteImport.update({
   path: '/statistics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TasbihRoute = TasbihRouteImport.update({
+  id: '/tasbih',
+  path: '/tasbih',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AzkarIndexRoute = AzkarIndexRouteImport.update({
   id: '/azkar/',
   path: '/azkar/',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/ramadan': typeof RamadanRoute
   '/settings': typeof SettingsRoute
   '/statistics': typeof StatisticsRoute
+  '/tasbih': typeof TasbihRoute
   '/azkar/$category': typeof AzkarCategoryRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/duas/$category': typeof DuasCategoryRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/ramadan': typeof RamadanRoute
   '/settings': typeof SettingsRoute
   '/statistics': typeof StatisticsRoute
+  '/tasbih': typeof TasbihRoute
   '/azkar/$category': typeof AzkarCategoryRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/duas/$category': typeof DuasCategoryRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/ramadan': typeof RamadanRoute
   '/settings': typeof SettingsRoute
   '/statistics': typeof StatisticsRoute
+  '/tasbih': typeof TasbihRoute
   '/azkar/$category': typeof AzkarCategoryRoute
   '/chapter/$id': typeof ChapterIdRoute
   '/duas/$category': typeof DuasCategoryRoute
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/ramadan'
     | '/settings'
     | '/statistics'
+    | '/tasbih'
     | '/azkar/$category'
     | '/chapter/$id'
     | '/duas/$category'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/ramadan'
     | '/settings'
     | '/statistics'
+    | '/tasbih'
     | '/azkar/$category'
     | '/chapter/$id'
     | '/duas/$category'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/ramadan'
     | '/settings'
     | '/statistics'
+    | '/tasbih'
     | '/azkar/$category'
     | '/chapter/$id'
     | '/duas/$category'
@@ -329,6 +341,7 @@ export interface RootRouteChildren {
   RamadanRoute: typeof RamadanRoute
   SettingsRoute: typeof SettingsRoute
   StatisticsRoute: typeof StatisticsRoute
+  TasbihRoute: typeof TasbihRoute
   AzkarCategoryRoute: typeof AzkarCategoryRoute
   ChapterIdRoute: typeof ChapterIdRoute
   DuasCategoryRoute: typeof DuasCategoryRoute
@@ -435,6 +448,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatisticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tasbih': {
+      id: '/tasbih'
+      path: '/tasbih'
+      fullPath: '/tasbih'
+      preLoaderRoute: typeof TasbihRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/azkar/': {
       id: '/azkar/'
       path: '/azkar'
@@ -529,6 +549,7 @@ const rootRouteChildren: RootRouteChildren = {
   RamadanRoute: RamadanRoute,
   SettingsRoute: SettingsRoute,
   StatisticsRoute: StatisticsRoute,
+  TasbihRoute: TasbihRoute,
   AzkarCategoryRoute: AzkarCategoryRoute,
   ChapterIdRoute: ChapterIdRoute,
   DuasCategoryRoute: DuasCategoryRoute,

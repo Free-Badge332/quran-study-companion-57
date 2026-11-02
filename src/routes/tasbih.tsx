@@ -82,6 +82,7 @@ function TasbihPage() {
                 type="button"
                 role="radio"
                 aria-checked={on}
+                aria-label={n == null ? t("noTarget") : String(n)}
                 onClick={() => dispatch({ type: "target", target: n })}
                 className={cn("min-h-10 flex-1 rounded-full text-sm font-semibold tabular-nums transition-colors", on ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}
               >
