@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Check, RotateCcw } from "lucide-react";
 import type { Dhikr, DhikrCategory, QuranRef } from "@/data/adhkar";
-import { azkarKey, stepCount, useStored } from "@/lib/devotion";
+import { azkarKey, useStored } from "@/lib/devotion";
+import { increment, undo } from "@/lib/tasbih";
+import { TasbihCounter } from "@/components/tasbih-counter";
 import { fetchChapter } from "@/lib/quran";
 import { useLang } from "@/lib/lang";
 
@@ -33,33 +34,19 @@ function QuranRefText({ r }: { r: QuranRef }) {
   );
 }
 
-function Item({ d, value, onTap, onReset, counter }: { d: Dhikr; value: number; onTap: () => void; onReset: () => void; counter: boolean }) {
+function Item({ d, value, onTap, onUndo, onReset, counter }: { d: Dhikr; value: number; onTap: () => void; onUndo: () => void; onReset: () => void; counter: boolean }) {
   const { t } = useLang();
   const done = value >= d.count;
   return (
-    <article className={`rounded-2xl border bg-card p-5 shadow-soft transition-colors ${done && counter ? "border-primary/50" : "border-border"}`}>
+    <article className={`surface-card p-5 transition-colors ${done && counter ? "border-gold/60" : ""}`}>
       {d.quran ? <QuranPassage refs={d.quran} /> : <p dir="rtl" lang="ar" className="font-arabic text-2xl leading-loose text-foreground">{d.ar}</p>}
       {d.en && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{d.en}</p>}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs text-muted-foreground">{t("reference")}: {d.ref}</span>
-        {counter && (
-          <div className="flex items-center gap-2">
-            {value > 0 && (
-              <button onClick={onReset} aria-label={t("resetCount")} className="grid h-9 w-9 place-items-center rounded-full text-muted-foreground hover:bg-muted">
-                <RotateCcw size={16} />
-              </button>
-            )}
-            <button
-              onClick={onTap}
-              disabled={done}
-              aria-label={`${t("tapToCount")} ${value}/${d.count}`}
-              className={`flex min-w-24 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition active:scale-95 ${done ? "bg-secondary text-primary" : "bg-primary text-primary-foreground"}`}
-            >
-              {done ? <><Check size={16} /> {t("completed")}</> : <>{value} / {d.count}</>}
-            </button>
-          </div>
-        )}
-      </div>
+      <p className="mt-3 text-xs text-muted-foreground">{t("reference")}: {d.ref}</p>
+      {counter && (
+        <div className="mt-4">
+          <TasbihCounter variant="compact" value={value} target={d.count} onIncrement={onTap} onUndo={onUndo} onReset={onReset} />
+        </div>
+      )}
     </article>
   );
 }
@@ -90,7 +77,8 @@ export function DhikrList({ category, counter = true }: { category: DhikrCategor
             d={d}
             counter={counter}
             value={counts[d.id] ?? 0}
-            onTap={() => setCounts((p) => ({ ...p, [d.id]: stepCount(p[d.id] ?? 0, d.count) }))}
+            onTap={() => setCounts((p) => ({ ...p, [d.id]: increment(p[d.id] ?? 0) }))}
+            onUndo={() => setCounts((p) => ({ ...p, [d.id]: undo(p[d.id] ?? 0) }))}
             onReset={() => setCounts((p) => ({ ...p, [d.id]: 0 }))}
           />
         ))}
