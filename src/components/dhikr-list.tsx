@@ -59,10 +59,10 @@ export function DhikrList({ category, counter = true }: { category: DhikrCategor
   return (
     <div>
       {counter && (
-        <div className="sticky top-16 z-10 mb-5 rounded-xl border border-border bg-card/95 p-3 backdrop-blur">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-medium text-foreground">{t("progressN", { a: done, b: category.items.length })}</span>
-            <button onClick={() => setCounts({})} className="text-muted-foreground hover:text-primary">{t("resetAll")}</button>
+        <div className="sticky-below-header z-10 mb-5 rounded-xl border border-border bg-card/95 p-3 backdrop-blur">
+          <div className="flex items-center justify-between gap-3 text-sm">
+            <span className="min-w-0 truncate font-medium text-foreground">{t("progressN", { a: done, b: category.items.length })}</span>
+            <ResetAll disabled={Object.values(counts).every((v) => !v)} onConfirm={() => setCounts({})} />
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
             <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />

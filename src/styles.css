@@ -379,3 +379,7 @@ html.native body { padding-inline: 0; }
 
 @keyframes count-tick { from { transform: translateY(-6%) scale(1.06); opacity: 0.55; } to { transform: none; opacity: 1; } }
 @keyframes counter-done { 0% { transform: scale(1); } 45% { transform: scale(1.04); } 100% { transform: scale(1); } }
+@utility sticky-below-header {
+  position: sticky;
+  top: calc(var(--header-height) + var(--safe-top) + 0.5rem);
+}
