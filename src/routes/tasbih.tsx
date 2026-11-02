@@ -23,15 +23,17 @@ export const Route = createFileRoute("/tasbih")({
 });
 
 // Not reset daily: the free counter keeps its counts until the user resets them.
-const INITIAL: TasbihState = { phrase: TASBIH_PHRASES[0].id, counts: {}, targets: {}, total: 0 };
+const DEFAULT_PHRASE = TASBIH_PHRASES[0]!;
+const INITIAL: TasbihState = { phrase: DEFAULT_PHRASE.id, counts: {}, targets: {}, total: 0 };
 
 function TasbihPage() {
   const { t, lang } = useLang();
   const [state, setState] = useStored<TasbihState>("tasbih:v1", INITIAL);
   const dispatch = (a: TasbihAction) => setState((s) => tasbihReducer({ ...INITIAL, ...s }, a));
-  const phrase = TASBIH_PHRASES.find((p) => p.id === state.phrase) ?? TASBIH_PHRASES[0];
+  const phrase = TASBIH_PHRASES.find((p) => p.id === state.phrase) ?? DEFAULT_PHRASE;
   const value = state.counts[phrase.id] ?? 0;
-  const target = phrase.id in (state.targets ?? {}) ? state.targets[phrase.id] : phrase.target;
+  const saved = state.targets?.[phrase.id];
+  const target = saved === undefined ? phrase.target : saved;
 
   return (
     <main className="mx-auto max-w-2xl px-4 pb-10">

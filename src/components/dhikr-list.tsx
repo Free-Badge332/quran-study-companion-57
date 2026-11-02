@@ -107,3 +107,23 @@ export function PageTitle({ title, sub }: { title: string; sub?: string }) {
     </header>
   );
 }
+
+function ResetAll({ disabled, onConfirm }: { disabled: boolean; onConfirm: () => void }) {
+  const { t } = useLang();
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger disabled={disabled} className="flex min-h-11 shrink-0 items-center px-2 text-muted-foreground transition-colors hover:text-primary disabled:opacity-40">
+        {t("resetAll")}
+      </AlertDialogTrigger>
+      <AlertDialogContent className="max-w-sm rounded-2xl">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("resetAll")}?</AlertDialogTitle>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{t("cancelAction")}</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>{t("resetAll")}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
