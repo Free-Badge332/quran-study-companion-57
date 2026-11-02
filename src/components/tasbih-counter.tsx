@@ -25,7 +25,14 @@ type Props = {
 };
 
 /** Digital Tasbih: LCD count, large pearl button, secondary undo/reset. Only the button counts. */
-export function TasbihCounter({ value, target, onIncrement, onUndo, onReset, variant = "full" }: Props) {
+export function TasbihCounter({
+  value,
+  target,
+  onIncrement,
+  onUndo,
+  onReset,
+  variant = "full",
+}: Props) {
   const { t } = useLang();
   const done = isComplete(value, target);
   const full = variant === "full";
@@ -33,23 +40,52 @@ export function TasbihCounter({ value, target, onIncrement, onUndo, onReset, var
     haptic(justCompleted(value, value + 1, target));
     onIncrement();
   };
-  const label = target ? t("countButton", { a: value, b: target }) : t("countButtonFree", { a: value });
+  const label = target
+    ? t("countButton", { a: value, b: target })
+    : t("countButtonFree", { a: value });
 
   return (
-    <div className={cn("bg-counter-shell shadow-elevated", full ? "mx-auto w-full max-w-sm rounded-[2.5rem] p-5 pb-4" : "rounded-2xl p-3")}>
-      <div className={cn(full ? "space-y-6" : "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3")}>
+    <div
+      className={cn(
+        "bg-counter-shell shadow-elevated",
+        full ? "mx-auto w-full max-w-sm rounded-[2.5rem] p-5 pb-4" : "rounded-2xl p-3",
+      )}
+    >
+      <div
+        className={cn(
+          full ? "space-y-6" : "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3",
+        )}
+      >
         <LcdDisplay value={value} target={target} done={done} large={full} />
         <div className={cn("grid place-items-center", full && "py-1")}>
-          <CounterButton onTap={tap} label={label} pct={progress(value, target)} done={done} size={full ? "lg" : "md"} />
+          <CounterButton
+            onTap={tap}
+            label={label}
+            pct={progress(value, target)}
+            done={done}
+            size={full ? "lg" : "md"}
+          />
         </div>
       </div>
-      <p aria-live="polite" className="sr-only">{done ? t("targetReached") : ""}</p>
+      <p aria-live="polite" className="sr-only">
+        {done ? t("targetReached") : ""}
+      </p>
       <CounterActions value={value} onUndo={onUndo} onReset={onReset} compact={!full} />
     </div>
   );
 }
 
-function LcdDisplay({ value, target, done, large }: { value: number; target: Target; done: boolean; large: boolean }) {
+function LcdDisplay({
+  value,
+  target,
+  done,
+  large,
+}: {
+  value: number;
+  target: Target;
+  done: boolean;
+  large: boolean;
+}) {
   const { t } = useLang();
   const digits = Math.max(large ? 4 : 3, String(value).length);
   const left = remaining(value, target);
@@ -58,57 +94,135 @@ function LcdDisplay({ value, target, done, large }: { value: number; target: Tar
       <div className="flex items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-wider opacity-75">
         <span className="truncate">{target ? `${t("countTarget")} ${target}` : t("noTarget")}</span>
         {done ? (
-          <span className="flex shrink-0 items-center gap-1 text-gold"><Check size={12} strokeWidth={3} />{t("completed")}</span>
+          <span className="flex shrink-0 items-center gap-1 text-gold">
+            <Check size={12} strokeWidth={3} />
+            {t("completed")}
+          </span>
         ) : (
-          left != null && <span className="shrink-0 tabular-nums">{t("remainingN", { n: left })}</span>
+          left != null && (
+            <span className="shrink-0 tabular-nums">{t("remainingN", { n: left })}</span>
+          )
         )}
       </div>
       {/* Ghost "8" segments behind the live digits imitate a real LCD. */}
-      <div dir="ltr" className={cn("relative mt-1 text-right font-lcd leading-none", large ? "text-6xl" : "text-4xl")} aria-hidden>
+      <div
+        dir="ltr"
+        className={cn(
+          "relative mt-1 text-right font-lcd leading-none",
+          large ? "text-6xl" : "text-4xl",
+        )}
+        aria-hidden
+      >
         <span className="absolute inset-0 text-lcd-ghost">{"8".repeat(digits)}</span>
-        <span key={value} className="relative inline-block animate-count-tick">{String(value).padStart(digits, "!")}</span>
+        <span key={value} className="relative inline-block animate-count-tick">
+          {String(value).padStart(digits, "!")}
+        </span>
       </div>
       {target != null && (
         <div className="mt-2 h-1 overflow-hidden rounded-full bg-lcd-ghost">
-          <div className="h-full rounded-full bg-lcd-foreground transition-[width] duration-200" style={{ width: `${progress(value, target) * 100}%` }} />
+          <div
+            className="h-full rounded-full bg-lcd-foreground transition-[width] duration-200"
+            style={{ width: `${progress(value, target) * 100}%` }}
+          />
         </div>
       )}
     </div>
   );
 }
 
-function CounterButton({ onTap, label, pct, done, size }: { onTap: () => void; label: string; pct: number; done: boolean; size: "lg" | "md" }) {
+function CounterButton({
+  onTap,
+  label,
+  pct,
+  done,
+  size,
+}: {
+  onTap: () => void;
+  label: string;
+  pct: number;
+  done: boolean;
+  size: "lg" | "md";
+}) {
   const C = 2 * Math.PI * 46;
   const dim = size === "lg" ? "h-44 w-44" : "h-[5.5rem] w-[5.5rem]";
   return (
     <div className={cn("relative grid place-items-center", dim, done && "animate-counter-done")}>
-      <svg viewBox="0 0 100 100" className="pointer-events-none absolute inset-0 -rotate-90" aria-hidden>
+      <svg
+        viewBox="0 0 100 100"
+        className="pointer-events-none absolute inset-0 -rotate-90"
+        aria-hidden
+      >
         <circle cx="50" cy="50" r="46" fill="none" strokeWidth="3" className="stroke-on-shell/20" />
-        <circle cx="50" cy="50" r="46" fill="none" strokeWidth="3" strokeLinecap="round" className="stroke-gold transition-[stroke-dashoffset] duration-300" strokeDasharray={C} strokeDashoffset={C * (1 - pct)} />
+        <circle
+          cx="50"
+          cy="50"
+          r="46"
+          fill="none"
+          strokeWidth="3"
+          strokeLinecap="round"
+          className="stroke-gold transition-[stroke-dashoffset] duration-300"
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - pct)}
+        />
       </svg>
       <button
         type="button"
         onClick={onTap}
         aria-label={label}
-        className={cn("counter-button grid place-items-center rounded-full text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold", size === "lg" ? "h-32 w-32" : "h-16 w-16")}
+        className={cn(
+          "counter-button grid place-items-center rounded-full text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold",
+          size === "lg" ? "h-32 w-32" : "h-16 w-16",
+        )}
       >
-        {done && <Check size={size === "lg" ? 34 : 22} strokeWidth={2.5} className="text-gold" aria-hidden />}
+        {done && (
+          <Check
+            size={size === "lg" ? 34 : 22}
+            strokeWidth={2.5}
+            className="text-gold"
+            aria-hidden
+          />
+        )}
       </button>
     </div>
   );
 }
 
-function CounterActions({ value, onUndo, onReset, compact }: { value: number; onUndo: () => void; onReset: () => void; compact: boolean }) {
+function CounterActions({
+  value,
+  onUndo,
+  onReset,
+  compact,
+}: {
+  value: number;
+  onUndo: () => void;
+  onReset: () => void;
+  compact: boolean;
+}) {
   const { t } = useLang();
   const [confirm, setConfirm] = useState(false);
-  const btn = "flex min-h-11 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-on-shell/80 transition-colors hover:bg-on-shell/10 hover:text-on-shell disabled:pointer-events-none disabled:opacity-35";
+  const btn =
+    "flex min-h-11 items-center gap-1.5 rounded-full px-3 text-xs font-medium text-on-shell/80 transition-colors hover:bg-on-shell/10 hover:text-on-shell disabled:pointer-events-none disabled:opacity-35";
   return (
     <div className={cn("flex items-center", compact ? "mt-1 justify-end" : "mt-3 justify-between")}>
-      <button type="button" onClick={onUndo} disabled={value === 0} className={btn} aria-label={t("undoCount")}>
-        <Undo2 size={16} /><span className={cn(compact && "sr-only")}>{t("undoCount")}</span>
+      <button
+        type="button"
+        onClick={onUndo}
+        disabled={value === 0}
+        className={btn}
+        aria-label={t("undoCount")}
+      >
+        <Undo2 size={16} />
+        <span className={cn(compact && "sr-only")}>{t("undoCount")}</span>
       </button>
-      <button type="button" onClick={() => setConfirm(true)} disabled={value === 0} className={btn} aria-label={t("resetCount")}>
-        <RotateCcw size={16} /><span className={cn(compact && "sr-only")}>{t("resetCount")}</span>
+      <button
+        type="button"
+        onClick={() => setConfirm(true)}
+        disabled={value === 0}
+        className={btn}
+        aria-label={t("resetCount")}
+      >
+        <RotateCcw size={16} />
+        <span className={cn(compact && "sr-only")}>{t("resetCount")}</span>
       </button>
       <AlertDialog open={confirm} onOpenChange={setConfirm}>
         <AlertDialogContent className="max-w-sm rounded-2xl">

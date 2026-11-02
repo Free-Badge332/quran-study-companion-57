@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { increment, isComplete, justCompleted, remaining, tasbihReducer, undo, type TasbihState } from "@/lib/tasbih";
+import {
+  increment,
+  isComplete,
+  justCompleted,
+  remaining,
+  tasbihReducer,
+  undo,
+  type TasbihState,
+} from "@/lib/tasbih";
 
 const base: TasbihState = { phrase: "subhanallah", counts: {}, targets: {}, total: 0 };
 
@@ -27,15 +35,15 @@ describe("tasbih counter", () => {
     let s = tasbihReducer(base, { type: "tap" });
     s = tasbihReducer(s, { type: "tap" });
     s = tasbihReducer({ ...s, counts: { ...s.counts, alhamdulillah: 5 } }, { type: "reset" });
-    expect(s.counts.subhanallah).toBe(0);
-    expect(s.counts.alhamdulillah).toBe(5);
+    expect(s.counts["subhanallah"]).toBe(0);
+    expect(s.counts["alhamdulillah"]).toBe(5);
     expect(s.total).toBe(2);
   });
   it("undo also reduces the all-time total, but not when already at zero", () => {
     let s = tasbihReducer(base, { type: "tap" });
     s = tasbihReducer(s, { type: "undo" });
     s = tasbihReducer(s, { type: "undo" });
-    expect(s.counts.subhanallah).toBe(0);
+    expect(s.counts["subhanallah"]).toBe(0);
     expect(s.total).toBe(0);
   });
   it("each dhikr keeps its own count when switching", () => {

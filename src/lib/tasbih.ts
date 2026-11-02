@@ -7,13 +7,20 @@ export type Target = number | null;
 export const increment = (v: number) => Math.min(MAX_COUNT, Math.max(0, v) + 1);
 /** Undo the last tap, never below zero. */
 export const undo = (v: number) => Math.max(0, v - 1);
-export const isComplete = (v: number, target: Target) => target != null && target > 0 && v >= target;
+export const isComplete = (v: number, target: Target) =>
+  target != null && target > 0 && v >= target;
 /** True only for the tap that reaches the target, so the completion cue fires once. */
-export const justCompleted = (prev: number, next: number, target: Target) => target != null && prev < target && next >= target;
+export const justCompleted = (prev: number, next: number, target: Target) =>
+  target != null && prev < target && next >= target;
 export const progress = (v: number, target: Target) => (target ? Math.min(1, v / target) : 0);
 export const remaining = (v: number, target: Target) => (target ? Math.max(0, target - v) : null);
 
-export type TasbihState = { phrase: string; counts: Record<string, number>; targets: Record<string, Target>; total: number };
+export type TasbihState = {
+  phrase: string;
+  counts: Record<string, number>;
+  targets: Record<string, Target>;
+  total: number;
+};
 export type TasbihAction =
   | { type: "tap" }
   | { type: "undo" }
@@ -30,7 +37,11 @@ export function tasbihReducer(s: TasbihState, a: TasbihAction): TasbihState {
     }
     case "undo": {
       const next = undo(cur);
-      return { ...s, counts: { ...s.counts, [s.phrase]: next }, total: Math.max(0, s.total - (cur - next)) };
+      return {
+        ...s,
+        counts: { ...s.counts, [s.phrase]: next },
+        total: Math.max(0, s.total - (cur - next)),
+      };
     }
     case "reset":
       // Lifetime total keeps earlier remembrance; only the current counter clears.
