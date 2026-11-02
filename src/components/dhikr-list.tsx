@@ -4,6 +4,7 @@ import type { Dhikr, DhikrCategory, QuranRef } from "@/data/adhkar";
 import { azkarKey, useStored } from "@/lib/devotion";
 import { increment, undo } from "@/lib/tasbih";
 import { TasbihCounter } from "@/components/tasbih-counter";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { fetchChapter } from "@/lib/quran";
 import { useLang } from "@/lib/lang";
 
