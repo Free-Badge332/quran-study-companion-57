@@ -51,7 +51,7 @@ function TasbihPage() {
         <ChevronLeft size={16} />
         {t("azkarTitle")}
       </Link>
-      <PageTitle title={t("tasbihTitle")} sub={t("tasbihSub")} />
+      <PageTitle title={t("tasbihTitle")} />
 
       <div
         role="radiogroup"
@@ -82,8 +82,8 @@ function TasbihPage() {
         })}
       </div>
 
-      <section className="surface-card mb-6 px-5 py-6 text-center">
-        <p dir="rtl" lang="ar" className="font-arabic text-4xl leading-loose text-foreground">
+      <section className="surface-card mb-5 px-5 py-4 text-center">
+        <p dir="rtl" lang="ar" className="font-arabic text-3xl leading-loose text-foreground">
           {phrase.ar}
         </p>
         <p className="mt-2 text-sm italic text-primary">{phrase.translit}</p>
