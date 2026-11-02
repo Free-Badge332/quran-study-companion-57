@@ -73,3 +73,9 @@
 - [x] Audit, permissions (added approximate location for prayer times), narrowed file sharing, keys git-ignored, privacy page, RELEASE.md (Windows).
 - [ ] Gradle build + device tests: need Android Studio and a phone. Support email for privacy page: needed from user.
 - [ ] Phase 2: waiting on approval.
+# UI/UX design system + digital Tasbih (uploaded brief)
+- [x] Shared tokens (motion, elevation, counter surfaces) and card utilities; dialogs use the theme scrim.
+- [x] Digital Tasbih counter in every Azkar item (count, target, remaining, undo, confirmed reset, saved per day) and a new Tasbih screen with 7 dhikr phrases and targets.
+- [x] 67 tests pass; phone-size browser check of tap, undo, reload persistence, reset confirmation, light and dark.
+- [ ] Full screen-by-screen polish of the remaining screens (Quran reader, Hadith, Ramadan, Settings…): next pass.
+- [ ] Amharic and Afaan Oromoo wording for the new counter: needs a native speaker's review.

@@ -9,7 +9,7 @@ import type { MsgKey } from "@/lib/i18n";
 const TABS: { to: "/" | "/quran" | "/azkar" | "/ramadan" | "/more"; label: MsgKey; icon: React.ComponentType<{ size?: number; strokeWidth?: number }>; match: string[] }[] = [
   { to: "/", label: "navHome", icon: Home, match: [] },
   { to: "/quran", label: "navQuran", icon: QuranIcon, match: ["/quran", "/chapter", "/bookmarks"] },
-  { to: "/azkar", label: "navAzkar", icon: TasbihIcon, match: ["/azkar", "/duas"] },
+  { to: "/azkar", label: "navAzkar", icon: TasbihIcon, match: ["/azkar", "/duas", "/tasbih"] },
   { to: "/ramadan", label: "navPrayer", icon: PrayerTimesIcon, match: ["/ramadan"] },
   { to: "/more", label: "navMore", icon: LayoutGrid, match: ["/more", "/hadith", "/lectures", "/community", "/statistics", "/settings"] },
 ];

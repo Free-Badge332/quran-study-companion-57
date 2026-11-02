@@ -38,7 +38,7 @@ export function CategoryRow({ id, title, total, to }: { id: string; title: strin
       <ChevronRight size={18} className="text-muted-foreground" />
     </>
   );
-  const cls = "flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft transition hover:border-primary";
+  const cls = "surface-card-interactive flex items-center gap-4 p-4";
   return to === "azkar" ? (
     <Link to="/azkar/$category" params={{ category: id }} className={cls}>{inner}</Link>
   ) : (
@@ -52,6 +52,14 @@ function AzkarIndex() {
     <main className="mx-auto max-w-2xl px-4 pb-10">
       <PageTitle title={t("azkarTitle")} sub={t("azkarSub")} />
       <DevotionTabs active="azkar" />
+      <Link to="/tasbih" className="bg-counter-shell shadow-elevated mb-5 flex items-center gap-4 rounded-2xl p-4 transition-transform active:scale-[0.99]">
+        <span className="lcd-screen grid h-12 w-16 shrink-0 place-items-center rounded-lg font-lcd text-xl" aria-hidden>33</span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-semibold">{t("tasbihTitle")}</span>
+          <span className="block truncate text-sm opacity-80">{t("tasbihOpen")}</span>
+        </span>
+        <ChevronRight size={18} className="shrink-0 opacity-80" />
+      </Link>
       <div className="space-y-3">
         {AZKAR.map((c) => <CategoryRow key={c.id} id={c.id} title={t(c.titleKey)} total={c.items.length} to="azkar" />)}
       </div>

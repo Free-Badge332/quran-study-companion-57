@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { BarChart3, ChevronRight, Settings, Download, Mic2 } from "lucide-react";
-import { BookmarkIcon, DuaIcon, HadithIcon, LecturesIcon, MosqueIcon, QiblaIcon } from "@/components/icons/islamic";
+import { BookmarkIcon, TasbihIcon, DuaIcon, HadithIcon, LecturesIcon, MosqueIcon, QiblaIcon } from "@/components/icons/islamic";
 import { PageTitle } from "@/components/dhikr-list";
 import type { MsgKey } from "@/lib/i18n";
 import { useLang } from "@/lib/lang";
@@ -20,14 +20,14 @@ export const Route = createFileRoute("/more")({
   component: MorePage,
 });
 
-type Entry = { to: "/hadith" | "/duas" | "/lectures" | "/community" | "/bookmarks" | "/statistics" | "/settings"; label: MsgKey; icon: ComponentType<{ size?: number }> };
+type Entry = { to: "/tasbih" | "/hadith" | "/duas" | "/lectures" | "/community" | "/bookmarks" | "/statistics" | "/settings"; label: MsgKey; icon: ComponentType<{ size?: number }> };
 const GROUPS: { title: MsgKey; items: Entry[] }[] = [
   { title: "groupLearn", items: [
     { to: "/hadith", label: "navHadith", icon: HadithIcon },
     { to: "/lectures", label: "navLectures", icon: LecturesIcon },
     { to: "/community", label: "navCommunity", icon: MosqueIcon },
   ] },
-  { title: "groupWorship", items: [{ to: "/duas", label: "navDuas", icon: DuaIcon }] },
+  { title: "groupWorship", items: [{ to: "/tasbih", label: "tasbihTitle", icon: TasbihIcon }, { to: "/duas", label: "navDuas", icon: DuaIcon }] },
   { title: "groupYou", items: [
     { to: "/bookmarks", label: "navBookmarks", icon: BookmarkIcon },
     { to: "/statistics", label: "navStats", icon: BarChart3 },
@@ -47,7 +47,7 @@ function MorePage() {
         {GROUPS.map((g) => (
           <section key={g.title}>
             <h2 className="mb-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t(g.title)}</h2>
-            <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
+            <ul className="surface-card divide-y divide-border overflow-hidden">
               {g.items.map(({ to, label, icon: Icon }) => (
                 <li key={to}>
                   <Link to={to} className="flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-muted">
